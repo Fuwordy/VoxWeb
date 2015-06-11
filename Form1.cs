@@ -11,6 +11,7 @@ using System.Threading;
 using System.Net;
 using System.IO;
 
+
 namespace SimpleWebBrowser
 {
     public partial class Form1 : Form
@@ -85,6 +86,7 @@ namespace SimpleWebBrowser
             button1.Enabled = true;
             textBox1.Enabled = true;
             textBox1.Text = webBrowser1.Url.ToString();
+            webBrowser1.Navigate("google.com");
 
             // Indicate loading is complete
             toolStripStatusLabel1.Text = "Search Completed";
@@ -133,23 +135,124 @@ namespace SimpleWebBrowser
                 }
             }
         }
-
+        /// <summary>
+        /// These are the Back, Foward, Refresh buttons for the Vox Web.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
             webBrowser1.GoBack();
         }
-
+        //Basic button fuction
         private void button4_Click(object sender, EventArgs e)
         {
-            webBrowser1.GoForward();
+            webBrowser1.GoForward(); //WTF THIS IS JUST ANNOYING NOT THIS FUNCTION BUT THIS MOTHERFUCKING PROJECT
         }
-
+        //Basuic button fuction
         private void button3_Click(object sender, EventArgs e)
         {
             webBrowser1.Refresh();
         }
 
         private void statusStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            TabPage newPage = new TabPage("New Page");
+            tabControl1.TabPages.Add(newPage);
+        }
+        private void OnBtnAddTab(object sender, EventArgs e)
+
+        {
+
+            string title = "TabPage " + (tabControl1.TabCount + 1).ToString();
+
+            TabPage myTabPage = new TabPage(title);
+
+            tabControl1.TabPages.Add(myTabPage);
+
+        }
+        private void button5_Click(object sender, EventArgs e)
+        {
+            NavigateToPage();
+        }
+        private void Navigate(String address)
+
+        {// the webBrowser1 is a member variable of the form
+
+            if (String.IsNullOrEmpty(address)) return;
+
+            if (address.Equals("about:blank")) return;
+
+            if (!address.StartsWith("http://")) address = "http://" + address;
+
+            try
+
+            {
+
+                webBrowser1.Navigate(new Uri(address));
+
+            }
+
+            catch (System.UriFormatException)
+
+            {
+
+                return;
+
+            }
+
+        }
+
+
+
+        private Control CreateBrowserObject()
+
+        {
+
+            if (this.webBrowser1 != null) // the webBrowser1 is a member variable of the form
+
+                this.webBrowser1.Dispose();
+
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+
+
+
+            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
+
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+
+            this.webBrowser1.Name = "webBrowser1";
+
+            this.webBrowser1.Size = new System.Drawing.Size(378, 270);
+
+            this.webBrowser1.TabIndex = 0;
+
+
+            return (webBrowser1);
+
+
+
+        }
+
+        private void OnBtnAddWeb2Tab(object sender, EventArgs e)
+
+        {// click a button to do this
+
+            tabControl1.TabPages[0].Controls.Add(CreateBrowserObject());
+
+            Navigate("www.google.com");
+
+            webBrowser1.Navigated += new WebBrowserNavigatedEventHandler(this.webBrowser1_Navigated);
+        }
+        private void webBrowser1_Navigated(object sender, WebBrowserNavigatedEventArgs e)
+
+        {//show the page title in the tab page
+
+            tabControl1.TabPages[0].Text = webBrowser1.Document.Title;
+
+        }
+
+        private void button5_Click_1(object sender, EventArgs e)
         {
 
         }

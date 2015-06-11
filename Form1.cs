@@ -11,7 +11,7 @@ using System.Threading;
 using System.Net;
 using System.IO;
 
-namespace VoxWeb
+namespace SimpleWebBrowser
 {
     public partial class Form1 : Form
     {

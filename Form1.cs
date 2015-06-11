@@ -11,7 +11,10 @@ using System.Threading;
 using System.Net;
 using System.IO;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 namespace SimpleWebBrowser
 {
     public partial class Form1 : Form
